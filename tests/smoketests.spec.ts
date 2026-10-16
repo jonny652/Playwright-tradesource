@@ -1,18 +1,21 @@
 import { test, expect } from '@playwright/test';
+import { TradesourceHomepage } from '../pages/tradesource-homepage';
+import { ManufacturerHomepage } from '../pages/manufacturer-homepage';
+import { SearchResultsPage } from '../pages/searchresults-page';
+import { BasePage } from '../pages/base-page';
 
-test('has title', async ({ page }) => {
-  await page.goto('/');
-});
-//01 navigate to the vertix manufacturer
+//01 navigate to the vertix manufacturer page
 test('assert that we have navigated to the Vortix manufacturer page', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('button', { name: 'Accept all' }).click();
-  await page.getByRole('button', { name: 'Close dialog' }).click();
-  await page.getByRole('textbox', { name: 'Search products or' }).click();
-  await page.getByRole('textbox', { name: 'Search products or' }).fill('vortix');
-  await page.getByRole('textbox', { name: 'Search products or' }).press('Enter');
-  await page.getByTestId('tab-manufacturers').click();
-  await page.getByTestId('result-tile').click();
+  const basePage = new BasePage(page);
+  const searchResultsPage = new SearchResultsPage(page);
+  await basePage.navigateTo(page);
+  await basePage.clickAcceptCookiesButton();
+  await basePage.clickCloseDialogButton();
+  await basePage.clickSearchTextbox();
+  await basePage.textboxSearch.fill('vortix');
+  await basePage.textboxSearch.press('Enter');
+  await searchResultsPage.clickManufacturerTab();
+  await searchResultsPage.getManufacturerName();
   await expect(page).toHaveURL('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
 });
 //02 verify the h1 header is as expected
