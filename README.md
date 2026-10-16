@@ -47,6 +47,7 @@ written with that in mind.
 - Language: (JavaScript or TypeScript — confirmed in Session 1)
 - Install dependencies: npm install
 - Install the Playwright browsers: npx playwright install
-- Start the TradeSource practice site in its own terminal: npm start (serves http://localhost:4321)
+- Clone the practice site into `./tradesource-site` (git clone https://github.com/samGreenwood2022/tradesource-site.git tradesource-site) — `playwright.config.ts` starts it automatically from there (serves http://localhost:4321), or start it yourself in its own terminal with `npm start` from that folder and Playwright will reuse it
 - Run the tests: npm test (or npm run test:ui for UI Mode)
+- CI (GitHub Actions) checks out `tradesource-site` into the same path automatically, so no extra setup is needed there
  

@@ -78,9 +78,10 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
+  /* Start the tradesource-site app under test before running the tests. */
   webServer: {
     command: 'npm run start',
+    cwd: './tradesource-site',
     url: 'http://localhost:4321',
     reuseExistingServer: !isCI,
   },

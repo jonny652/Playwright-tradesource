@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - name: Checkout tradesource-site (app under test)
+      uses: actions/checkout@v4
+      with:
+        repository: samGreenwood2022/tradesource-site
+        path: tradesource-site
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
