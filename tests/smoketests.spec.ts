@@ -4,7 +4,7 @@ test('has title', async ({ page }) => {
   await page.goto('/');
 });
 //01 navigate to the vertix manufacturer
-test('test', async ({ page }) => {
+test('assert that we have navigated to the Vortix manufacturer page', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: 'Accept all' }).click();
   await page.getByRole('button', { name: 'Close dialog' }).click();
@@ -15,3 +15,28 @@ test('test', async ({ page }) => {
   await page.getByTestId('result-tile').click();
   await expect(page).toHaveURL('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
 });
+//02 verify the h1 header is as expected
+test('verify the h1 header is as expected', async ({ page }) => {
+  await page.goto('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
+  await expect(page.getByRole('heading', { name: 'Vortix' })).toHaveText('Vortix');
+});
+//03 verify the h1 paragraph text is as expected
+test('verify the h1 paragraph text is as expected', async ({ page }) => {
+  await page.goto('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
+  await expect(page.getByTestId('manufacturer-tagline')).toHaveText('Commercial cleaning equipment, built for daily use');
+});
+//04 verify the manufacturer website link works as expected
+test('verify the manufacturer website link works as expected', async ({ page }) => {
+  await page.goto('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
+  await expect(page.getByRole('link', { name: 'Website' })).toHaveAttribute('href', 'https://www.vortix-commercial.example/overview');
+});
+
+//05 verify that the Contact Manufacturer button is visible and contains the correct text and when clicked, it opens the login modal
+test('verify that the Contact Manufacturer button is visible and contains the correct text', async ({ page }) => {
+  await page.goto('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
+  await expect(page.getByRole('button', { name: 'Contact Manufacturer' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Contact Manufacturer' })).toHaveText('Contact manufacturer');
+  await page.getByRole('button', { name: 'Contact Manufacturer' }).click();
+  await expect(page.getByRole('dialog', { name: 'sign in required' })).toBeVisible();
+});
+
