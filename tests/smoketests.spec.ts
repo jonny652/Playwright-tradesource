@@ -20,26 +20,30 @@ test('assert that we have navigated to the Vortix manufacturer page', async ({ p
 });
 //02 verify the h1 header is as expected
 test('verify the h1 header is as expected', async ({ page }) => {
+ const manufacturerHomepage = new ManufacturerHomepage(page);
   await page.goto('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
-  await expect(page.getByRole('heading', { name: 'Vortix' })).toHaveText('Vortix');
+  await expect(manufacturerHomepage.h1heading).toHaveText('Vortix');
 });
 //03 verify the h1 paragraph text is as expected
 test('verify the h1 paragraph text is as expected', async ({ page }) => {
+  const manufacturerHomepage = new ManufacturerHomepage(page);
   await page.goto('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
-  await expect(page.getByTestId('manufacturer-tagline')).toHaveText('Commercial cleaning equipment, built for daily use');
+  await expect(manufacturerHomepage.h1paragraph).toHaveText('Commercial cleaning equipment, built for daily use');
 });
 //04 verify the manufacturer website link works as expected
 test('verify the manufacturer website link works as expected', async ({ page }) => {
+  const manufacturerHomepage = new ManufacturerHomepage(page);
   await page.goto('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
-  await expect(page.getByRole('link', { name: 'Website' })).toHaveAttribute('href', 'https://www.vortix-commercial.example/overview');
+  await expect(manufacturerHomepage.manufacturerWebsiteLink).toHaveAttribute('href', 'https://www.vortix-commercial.example/overview');
 });
 
 //05 verify that the Contact Manufacturer button is visible and contains the correct text and when clicked, it opens the login modal
 test('verify that the Contact Manufacturer button is visible and contains the correct text', async ({ page }) => {
+  const manufacturerHomepage = new ManufacturerHomepage(page);
   await page.goto('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
-  await expect(page.getByRole('button', { name: 'Contact Manufacturer' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Contact Manufacturer' })).toHaveText('Contact manufacturer');
-  await page.getByRole('button', { name: 'Contact Manufacturer' }).click();
-  await expect(page.getByRole('dialog', { name: 'sign in required' })).toBeVisible();
+  await expect(manufacturerHomepage.contactManufacturerButton).toBeVisible();
+  await expect(manufacturerHomepage.contactManufacturerButton).toHaveText('Contact manufacturer');
+  await manufacturerHomepage.contactManufacturerButton.click();
+  await expect(page.getByRole('button', { name: 'Sign in to continue' })).toBeVisible();
 });
 
