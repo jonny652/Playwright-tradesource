@@ -9,6 +9,7 @@ export class ManufacturerHomepage extends BasePage {
   readonly h1paragraph: Locator;
   readonly manufacturerWebsiteLink: Locator;
   readonly contactManufacturerButton: Locator;
+  readonly loginModal: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -18,6 +19,7 @@ export class ManufacturerHomepage extends BasePage {
     this.h1paragraph = page.getByTestId('manufacturer-tagline');
     this.manufacturerWebsiteLink = page.getByRole('link', { name: 'Website' });
     this.contactManufacturerButton = page.getByRole('button', { name: 'Contact Manufacturer' });
+    this.loginModal = page.getByRole('button', { name: 'Sign in to continue' });
   }
 
 //ACTIONS...............................................
@@ -45,4 +47,8 @@ export class ManufacturerHomepage extends BasePage {
     return this.contactManufacturerButton;
   }
 
+  //Return login modal locator
+  async getLoginModal() {
+    return this.loginModal;
+  }
 }

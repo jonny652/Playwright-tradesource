@@ -10,7 +10,6 @@ export class BasePage {
 
 
   constructor(page: Page) {
-
     this.acceptCookiesButton = page.getByRole('button', { name: 'Accept all' });
     this.closeDialogButton = page.getByRole('button', { name: 'Close dialog' });
     this.textboxSearch = page.getByRole('textbox', { name: 'Search products or' });
