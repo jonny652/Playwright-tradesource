@@ -10,6 +10,7 @@ export class ManufacturerHomepage extends BasePage {
   readonly manufacturerWebsiteLink: Locator;
   readonly contactManufacturerButton: Locator;
   readonly loginModal: Locator;
+  readonly url = '/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview';
 
   constructor(page: Page) {
     super(page);
@@ -51,4 +52,13 @@ export class ManufacturerHomepage extends BasePage {
   async getLoginModal() {
     return this.loginModal;
   }
+  //Verify that the manufacturer website link works as expected
+  async verifyManufacturerWebsiteLink() {
+    return this.manufacturerWebsiteLink;
+  }
+
+  async gotoManufacturerHomepage(page: Page) {
+    await page.goto(this.url);
+  }
+
 }
