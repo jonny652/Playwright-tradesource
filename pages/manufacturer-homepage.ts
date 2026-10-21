@@ -57,8 +57,9 @@ export class ManufacturerHomepage extends BasePage {
     return this.manufacturerWebsiteLink;
   }
 
-  async gotoManufacturerHomepage(page: Page) {
-    await page.goto(this.url);
+
+  async gotoManufacturerHomepage() {
+    await this.page.goto(this.url);
   }
 
 }

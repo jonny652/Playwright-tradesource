@@ -7,9 +7,11 @@ export class BasePage {
   readonly acceptCookiesButton: Locator;
   readonly closeDialogButton: Locator;
   readonly textboxSearch: Locator;
+  readonly page: Page;
 
 
   constructor(page: Page) {
+    this.page = page;
     this.acceptCookiesButton = page.getByRole('button', { name: 'Accept all' });
     this.closeDialogButton = page.getByRole('button', { name: 'Close dialog' });
     this.textboxSearch = page.getByRole('textbox', { name: 'Search products or' });
@@ -26,8 +28,8 @@ export class BasePage {
     await this.closeDialogButton.click();
   }
 
-async navigateTo(page: Page) {
-  await page.goto('/');
+async navigateTo() {
+  await this.page.goto('/');
   }
 async clickSearchTextbox() {
   await this.textboxSearch.click();

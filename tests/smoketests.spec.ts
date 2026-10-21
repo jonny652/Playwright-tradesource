@@ -1,8 +1,8 @@
 import { test, expect } from '../fixture/test-options';
 
 //01 navigate to the vertix manufacturer page
-test.beforeEach('assert that we have navigated to the Vortix manufacturer page', async ({ manufacturerHomepage, page }) => {
-  await manufacturerHomepage.gotoManufacturerHomepage(page);
+test.beforeEach('assert that we have navigated to the Vortix manufacturer page', async ({ manufacturerHomepage }) => {
+  await manufacturerHomepage.gotoManufacturerHomepage();
 });
 //02 verify the h1 header is as expected
 test('verify the h1 header is as expected', async ({manufacturerHomepage}) => {
