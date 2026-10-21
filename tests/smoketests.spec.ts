@@ -1,5 +1,6 @@
 import { test, expect } from '../fixture/test-options';
 import { BasePage } from '../pages/base-page';
+import { SignInPage } from '../pages/sign-in-page';
 
 //01 navigate to the vertix manufacturer page
 test.beforeEach('assert that we have navigated to the Vortix manufacturer page', async ({ manufacturerHomepage }) => {
@@ -29,7 +30,11 @@ test('verify that the Contact Manufacturer button is visible and contains the co
 });
 
 //06 verify the sign in process works as expected 
-test('verify that the signin process allows the user to log in', async ({basePage}) => {
-await basePage.signinbutton.click();
+test('verify that the signin process allows the user to log in', async ({basePage, signInPage}) => {
+await basePage.clickSignInButton();
+await signInPage.enterEmailAddress();
+await signInPage.clickNextButton();
+await signInPage.enterPassword();
+await signInPage.signInPasswordButton();
 
 });

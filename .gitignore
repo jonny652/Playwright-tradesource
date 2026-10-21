@@ -9,3 +9,6 @@ node_modules/
 
 # App under test, checked out locally/in CI for the webServer to run
 /tradesource-site/
+
+# Local secrets
+.env
