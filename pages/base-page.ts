@@ -8,6 +8,7 @@ export class BasePage {
   readonly closeDialogButton: Locator;
   readonly textboxSearch: Locator;
   readonly page: Page;
+  readonly signInButton: Locator;
 
 
   constructor(page: Page) {
@@ -15,6 +16,7 @@ export class BasePage {
     this.acceptCookiesButton = page.getByRole('button', { name: 'Accept all' });
     this.closeDialogButton = page.getByRole('button', { name: 'Close dialog' });
     this.textboxSearch = page.getByRole('textbox', { name: 'Search products or' });
+    this.signInButton = page.getByRole('button' ,  { name: 'Sign in'});
   }
 
 //ACTIONS...............................................
@@ -34,7 +36,9 @@ async navigateTo() {
 async clickSearchTextbox() {
   await this.textboxSearch.click();
   }
-
+async clickSignInButton() {
+await this.signInButton.click();
+}
 
 }
 
