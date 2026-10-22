@@ -3,8 +3,9 @@ import { BasePage } from '../pages/base-page';
 import { SignInPage } from '../pages/sign-in-page';
 
 //01 navigate to the vertix manufacturer page
-test.beforeEach('assert that we have navigated to the Vortix manufacturer page', async ({ manufacturerHomepage }) => {
+test.beforeEach('assert that we have navigated to the Vortix manufacturer page', async ({ manufacturerHomepage, basePage }) => {
   await manufacturerHomepage.gotoManufacturerHomepage();
+  await basePage.handleOverlays();
 });
 //02 verify the h1 header is as expected
 test('verify the h1 header is as expected', async ({manufacturerHomepage}) => {
@@ -29,12 +30,14 @@ test('verify that the Contact Manufacturer button is visible and contains the co
   await expect(manufacturerHomepage.loginModal).toBeVisible();
 });
 
-//06 verify the sign in process works as expected 
-test('verify that the signin process allows the user to log in', async ({basePage, signInPage}) => {
+//06 verify the sign in process works as expected and returns the user to the page they clicked sign in from
+test('verify that the signin process returns the user to the page they started from', async ({basePage, signInPage}) => {
+const startUrl = basePage.getCurrentUrl();
 await basePage.clickSignInButton();
 await signInPage.enterEmailAddress();
 await signInPage.clickNextButton();
 await signInPage.enterPassword();
 await signInPage.signInPasswordButton();
+await expect(basePage.page).toHaveURL(startUrl);
 
 });
