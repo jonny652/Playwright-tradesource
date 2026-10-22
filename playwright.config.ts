@@ -2,9 +2,12 @@ import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Read environment variables from file.
+ * Only loaded when present: .env is gitignored, so on CI the values come from GitHub secrets instead.
  */
+import fs from 'fs';
 import path from 'path';
-process.loadEnvFile(path.resolve(__dirname, '.env'));
+const envFile = path.resolve(__dirname, '.env');
+if (fs.existsSync(envFile)) process.loadEnvFile(envFile);
 
 /**
  * See https://playwright.dev/docs/test-configuration.
