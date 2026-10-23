@@ -10,6 +10,7 @@ export class BasePage {
   readonly textboxSearch: Locator;
   readonly page: Page;
   readonly signInButton: Locator;
+  readonly userMenuButton: Locator;
 
 
   constructor(page: Page) {
@@ -19,6 +20,7 @@ export class BasePage {
     this.newFeatureCloseButton = page.getByRole('dialog', { name: 'Discover TradeSource Insights' }).getByRole('button', { name: 'Close dialog' });
     this.textboxSearch = page.getByRole('textbox', { name: 'Search products or' });
     this.signInButton = page.getByRole('button' ,  { name: 'Sign in'});
+    this.userMenuButton = page.getByTestId('user-menu-button');
   }
 
 //ACTIONS...............................................
