@@ -1,17 +1,43 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixture/test-options';
+import { BasePage } from '../pages/base-page';
+import { SignInPage } from '../pages/sign-in-page';
 
-test('has title', async ({ page }) => {
-  await page.goto('/');
+//01 navigate to the vertix manufacturer page
+test.beforeEach('assert that we have navigated to the Vortix manufacturer page', async ({ manufacturerHomepage, basePage }) => {
+  await manufacturerHomepage.gotoManufacturerHomepage();
+  await basePage.handleOverlays();
 });
-//01 navigate to the vertix manufacturer
-test('test', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('button', { name: 'Accept all' }).click();
-  await page.getByRole('button', { name: 'Close dialog' }).click();
-  await page.getByRole('textbox', { name: 'Search products or' }).click();
-  await page.getByRole('textbox', { name: 'Search products or' }).fill('vortix');
-  await page.getByRole('textbox', { name: 'Search products or' }).press('Enter');
-  await page.getByTestId('tab-manufacturers').click();
-  await page.getByTestId('result-tile').click();
-  await expect(page).toHaveURL('/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview');
+//02 verify the h1 header is as expected
+test('verify the h1 header is as expected', async ({manufacturerHomepage}) => {
+  await expect(manufacturerHomepage.h1heading).toHaveText('Vortix');
+});
+//03 verify the h1 paragraph text is as expected
+test('verify the h1 paragraph text is as expected', async ({manufacturerHomepage}) => {
+  await expect(manufacturerHomepage.h1paragraph).toHaveText('Commercial cleaning equipment, built for daily use');
+});
+//04 verify the manufacturer website link works as expected
+test('verify the manufacturer website link works as expected', async ({manufacturerHomepage}) => {
+  await expect(manufacturerHomepage.manufacturerWebsiteLink).toBeVisible();
+  await expect(manufacturerHomepage.manufacturerWebsiteLink).toHaveText('Website');
+  await expect(manufacturerHomepage.manufacturerWebsiteLink).toHaveAttribute('href', 'https://www.vortix-commercial.example/overview');
+});
+
+//05 verify that the Contact Manufacturer button is visible and contains the correct text and when clicked, it opens the login modal
+test('verify that the Contact Manufacturer button is visible and contains the correct text', async ({manufacturerHomepage}) => {
+  await expect(manufacturerHomepage.contactManufacturerButton).toBeVisible();
+  await expect(manufacturerHomepage.contactManufacturerButton).toHaveText('Contact manufacturer');
+  await manufacturerHomepage.contactManufacturerButton.click();
+  await expect(manufacturerHomepage.loginModal).toBeVisible();
+});
+
+//06 verify the sign in process works as expected and returns the user to the page they clicked sign in from
+test('verify that the signin process returns the user to the page they started from', async ({basePage, signInPage}) => {
+const startUrl = basePage.getCurrentUrl();
+await basePage.clickSignInButton();
+await signInPage.enterEmailAddress();
+await signInPage.clickNextButton();
+await signInPage.enterPassword();
+await signInPage.signInPasswordButton();
+await expect(basePage.page).toHaveURL(startUrl);
+
 });

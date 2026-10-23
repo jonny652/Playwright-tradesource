@@ -2,11 +2,12 @@ import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Read environment variables from file.
- * https://github.com/motdotla/dotenv
+ * Only loaded when present: .env is gitignored, so on CI the values come from GitHub secrets instead.
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import fs from 'fs';
+import path from 'path';
+const envFile = path.resolve(__dirname, '.env');
+if (fs.existsSync(envFile)) process.loadEnvFile(envFile);
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -27,8 +28,8 @@ export default defineConfig({
   forbidOnly: isCI,
   /* Retry on CI only */
   retries: isCI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: isCI ? 1 : undefined,
+  /* Opt out of parallel tests to avoid overloading the local dev server. */
+  workers: 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -78,9 +79,10 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
+  /* Start the tradesource-site app under test before running the tests. */
   webServer: {
     command: 'npm run start',
+    cwd: './tradesource-site',
     url: 'http://localhost:4321',
     reuseExistingServer: !isCI,
   },
