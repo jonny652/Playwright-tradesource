@@ -43,19 +43,28 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    /* Sign in once (or re-use a still-valid saved session) before the browser projects run. */
+    {
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
+    },
+
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json' },
+      dependencies: ['setup'],
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'], storageState: 'playwright/.auth/user.json' },
+      dependencies: ['setup'],
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: { ...devices['Desktop Safari'], storageState: 'playwright/.auth/user.json' },
+      dependencies: ['setup'],
     },
 
     /* Test against mobile viewports. */
