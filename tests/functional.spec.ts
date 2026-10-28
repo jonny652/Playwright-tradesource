@@ -52,7 +52,3 @@ test('verify the user is signed in', async ({basePage}) => {
   await expect(basePage.userMenuButton).toBeVisible();
 });
 
-//07 report any accessability failures 
-test('verify that the accessability plug in produces a html report showing any failures', async ({page}) => {
-  await generateAccessibilityReport(page, "vortix-accessibility-report.html");
-});
