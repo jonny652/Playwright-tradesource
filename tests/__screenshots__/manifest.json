@@ -1,0 +1,89 @@
+{
+  "generatedAt": "2026-10-28T14:54:58.044Z",
+  "entries": {
+    "home/footer-visual-desktop-1280x720.png": {
+      "page": "home",
+      "name": "footer",
+      "project": "visual-desktop-1280x720",
+      "viewport": "1280x720",
+      "imagePixels": "1280x91",
+      "capturedAt": "2026-10-28T14:54:58.044Z",
+      "sourceCommit": "853abc8",
+      "runId": "40710529908",
+      "playwright": "1.64.1",
+      "chromium": "156.0.8078.4",
+      "image": "mcr.microsoft.com/playwright:v1.64.1-noble",
+      "sha256": "f37412bf8a09d6f5ba6e78f538fbc92f88c0cd56159147b151ff63e36a50c308"
+    },
+    "home/full-page-visual-desktop-1280x720.png": {
+      "page": "home",
+      "name": "full-page",
+      "project": "visual-desktop-1280x720",
+      "viewport": "1280x720",
+      "imagePixels": "1280x2233",
+      "capturedAt": "2026-10-28T14:54:58.044Z",
+      "sourceCommit": "853abc8",
+      "runId": "40710529908",
+      "playwright": "1.64.1",
+      "chromium": "156.0.8078.4",
+      "image": "mcr.microsoft.com/playwright:v1.64.1-noble",
+      "sha256": "7a74f38461d8f9be90aaa4b7bed59a21b8d31c88ab43a4726e4761ed57f9b1f0"
+    },
+    "home/header-visual-desktop-1280x720.png": {
+      "page": "home",
+      "name": "header",
+      "project": "visual-desktop-1280x720",
+      "viewport": "1280x720",
+      "imagePixels": "1280x67",
+      "capturedAt": "2026-10-28T14:54:58.044Z",
+      "sourceCommit": "853abc8",
+      "runId": "40710529908",
+      "playwright": "1.64.1",
+      "chromium": "156.0.8078.4",
+      "image": "mcr.microsoft.com/playwright:v1.64.1-noble",
+      "sha256": "15605747b2e07cda6f3864b0aef24258275d2bedb0fc3a549a8c21c6ea886cc7"
+    },
+    "home/main-navigation-visual-desktop-1280x720.png": {
+      "page": "home",
+      "name": "main-navigation",
+      "project": "visual-desktop-1280x720",
+      "viewport": "1280x720",
+      "imagePixels": "1200x40",
+      "capturedAt": "2026-10-28T14:54:58.044Z",
+      "sourceCommit": "853abc8",
+      "runId": "40710529908",
+      "playwright": "1.64.1",
+      "chromium": "156.0.8078.4",
+      "image": "mcr.microsoft.com/playwright:v1.64.1-noble",
+      "sha256": "6f33cbd5bc9228c10fb7ff662463e7707571fc7954974c0f2a2685efcaf9a56d"
+    },
+    "manufacturer-vortix/contact-sign-in-prompt-visual-desktop-1280x720.png": {
+      "page": "manufacturer-vortix",
+      "name": "contact-sign-in-prompt",
+      "project": "visual-desktop-1280x720",
+      "viewport": "1280x720",
+      "imagePixels": "480x157",
+      "capturedAt": "2026-10-28T14:54:58.044Z",
+      "sourceCommit": "853abc8",
+      "runId": "40710529908",
+      "playwright": "1.64.1",
+      "chromium": "156.0.8078.4",
+      "image": "mcr.microsoft.com/playwright:v1.64.1-noble",
+      "sha256": "107f2b4caf8b7bc0199e0c277936ea39ad7463c5eb40f82bf2f2ca75c8726110"
+    },
+    "manufacturer-vortix/full-page-visual-desktop-1280x720.png": {
+      "page": "manufacturer-vortix",
+      "name": "full-page",
+      "project": "visual-desktop-1280x720",
+      "viewport": "1280x720",
+      "imagePixels": "1280x1193",
+      "capturedAt": "2026-10-28T14:54:58.044Z",
+      "sourceCommit": "853abc8",
+      "runId": "40710529908",
+      "playwright": "1.64.1",
+      "chromium": "156.0.8078.4",
+      "image": "mcr.microsoft.com/playwright:v1.64.1-noble",
+      "sha256": "a3551f7992c705d076540b3548e8306ad36d38dca47527670f4794094e33b8ba"
+    }
+  }
+}
