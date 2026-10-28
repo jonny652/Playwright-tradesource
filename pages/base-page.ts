@@ -53,6 +53,10 @@ await this.signInButton.click();
       await this.newFeatureCloseButton.click();
     });
   }
+  //Stop the cookie banner and new feature popup from loading at all, for tests that are not about overlays. Call before navigating
+  async disableOverlays() {
+    await this.page.context().addCookies([{ name: 'tradesource_overlays', value: 'off', domain: 'localhost', path: '/' }]);
+  }
   //Return the URL of the page currently loaded
   getCurrentUrl() {
     return this.page.url();

@@ -1,6 +1,7 @@
 import { test, expect } from '../fixture/test-options';
 import { BasePage } from '../pages/base-page';
 import { SignInPage } from '../pages/sign-in-page';
+import {generateAccessibilityReport} from '../utility/acessability';
 
 //01 navigate to the vertix manufacturer page
 test.beforeEach('assert that we have navigated to the Vortix manufacturer page', async ({ manufacturerHomepage, basePage }) => {
@@ -49,4 +50,9 @@ test.describe('signed out', () => {
 //07 verify the user is signed in using the saved session from the setup step
 test('verify the user is signed in', async ({basePage}) => {
   await expect(basePage.userMenuButton).toBeVisible();
+});
+
+//07 report any accessability failures 
+test('verify that the accessability plug in produces a html report showing any failures', async ({page}) => {
+  await generateAccessibilityReport(page, "vortix-accessibility-report.html");
 });
