@@ -4,8 +4,9 @@ Playwright + TypeScript test suite for the Trade Source site (manufacturer pages
 
 ## Setup
 
-- `npm test` — run full suite (chromium, firefox, webkit)
+- `npm test` — run the functional suite (chromium, firefox, webkit). Visual regression tests are NOT included, they run in their own project
 - `npm run test:chromium` / `test:firefox` / `test:webkit` — single browser
+- `npm run test:visual:docker` — run the visual regression tests in the Linux Playwright image (same as CI); `npm run test:visual:update` regenerates the baselines (needs Docker, and `./tradesource-site` cloned)
 - `npm run test:ui` — Playwright UI mode
 - `npm run report` — open last HTML report
 - Dev server must be reachable at `http://localhost:4321` (config `webServer` runs `npm run start` if not already up, reusing an existing server locally)
@@ -36,6 +37,15 @@ The GitHub Actions workflow (`.github/workflows/playwright.yml`) checked out onl
   - Updated `README.md`'s Getting Started section to tell local devs to clone the site into `./tradesource-site`.
 - Verified locally: cloned the site repo into `./tradesource-site`, ran `node server.js` directly (on a spare port, since a dev server was already running on 4321) — served HTTP 200 with no dependency install required, confirming the CI path will work.
 
+### 2026-10-28 — Added visual regression testing
+Visual tests were flaky or impossible to share between Windows and GitHub: baselines are per OS, the site's font stack renders differently on Windows and Linux, and the site's cookie banner / "Discover TradeSource Insights" popup and four lazily-loaded random homepage sections change what is on screen. The popups are not a geolocation effect (the site has no real geolocation, region is fixed to GB), they appear at random times.
+- **Added** a `visual-desktop-1280x720` project (chromium only, fixed 1280x720, signed out) that runs only `tests/visual-regression.spec.ts`. The chromium/firefox/webkit projects ignore that file, and the `npm test` scripts list their projects explicitly, because `npx playwright test` runs every project.
+- **Added** `fixture/visual-options.ts`: an automatic fixture calling `BasePage.disableOverlays()` before any navigation, and `settle()`, which loads the four `[data-lazy]` homepage regions (waits for their `is-loaded` class), waits for images and fonts, fails on a broken image, then scrolls back to the top. The four random regions are masked in the full-page homepage shot.
+- **Added** tests for the homepage (full page, header, main navigation, footer) and the Vortix manufacturer page (full page, signed-out contact sign-in prompt).
+- **Baselines** are named `tests/__screenshots__/<page>/<name>-<project>.png` (no platform in the name) and are only ever generated in the Linux Playwright image: locally via `docker-compose.visual.yml`, on GitHub via the `visual` job. `scripts/visual-manifest.mjs` records page, resolution, pixel size and capture date/time per image in `tests/__screenshots__/manifest.json`; `scripts/visual-gallery.mjs` builds a review page; `scripts/visual-orphans.mjs` fails CI if a baseline is no longer used by a test.
+- **CI:** new `visual` job in the Playwright container (image tag must match `@playwright/test` in `package-lock.json`, currently 1.64.1). If no baselines are committed yet, the job generates them and uploads them as an artifact instead of comparing (first run only); from then on it compares and never writes.
+- **Not yet verified at time of writing:** the Docker service and the GitHub job had not been run. Check the first runs, and confirm two compare runs in a row both pass.
+
 ## Known Issues
 
 - None open currently.
@@ -44,3 +54,4 @@ The GitHub Actions workflow (`.github/workflows/playwright.yml`) checked out onl
 
 - Tests in `tests/smoketests.spec.ts` are numbered with `//01`, `//02`, ... comments reflecting intended reading order, but each test navigates independently via full-path `page.goto` calls — they do not depend on execution order and are safe to run individually.
 - Prefer `data-testid` locators over structural locators (e.g. `.locator('p')` off a heading) when a `data-testid` is available on the element — more resilient to markup changes.
+- Visual regression: name every screenshot `toHaveScreenshot(['page', 'name.png'])` (the orphan check relies on this form), call `settle(page)` before each one, never generate baselines on Windows, and never use fixed sleeps.

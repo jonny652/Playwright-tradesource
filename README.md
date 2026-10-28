@@ -51,3 +51,13 @@ written with that in mind.
 - Run the tests: npm test (or npm run test:ui for UI Mode)
 - CI (GitHub Actions) checks out `tradesource-site` into the same path automatically, so no extra setup is needed there
  
+## Visual regression testing
+
+Visual tests live in `tests/visual-regression.spec.ts` and run in their own chromium-only project, `visual-desktop-1280x720` (fixed 1280x720 viewport, signed out). They cover the homepage (full page, header, main navigation, footer) and the Vortix manufacturer page (full page, contact sign-in prompt).
+
+Baseline images are stored in `tests/__screenshots__/<page>/<name>-<project>.png`, so the page and resolution are in the path. They are generated **only inside the Linux Playwright Docker image**, because fonts and rendering differ between Windows and Linux. `tests/__screenshots__/manifest.json` records each baseline's page, resolution, pixel size, capture date and time, commit and browser version.
+
+- Compare locally (needs Docker): `npm run test:visual:docker`
+- Regenerate baselines on purpose: `npm run test:visual:update`, review the changed images in the git diff, commit
+- GitHub: the `visual` job compares on every push and pull request. If no baselines are committed yet it generates them and uploads them as an artifact (download, review `gallery.html`, copy into `tests/__screenshots__/`, commit). After the workflow is on the default branch you can also run it manually with `update_snapshots` ticked
+- `npm test` and the other browser scripts run the functional suite only and never run the visual tests

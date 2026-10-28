@@ -20,6 +20,10 @@ const isCI = !!(globalThis as {
   };
 }).process?.env?.CI;
 
+/* Visual regression specs live in tests/visual-regression.spec.ts. The functional browser projects ignore them,
+   and the visual project runs nothing else. */
+const VISUAL_SPECS = /.*visual-regression\.spec\.ts/;
+
 export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
@@ -32,6 +36,24 @@ export default defineConfig({
   workers: 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
+
+  /* Visual regression baselines: one folder per page, the project (which carries the resolution)
+     in the file name, and no {platform} token, so there is exactly one baseline per page and viewport.
+     e.g. tests/__screenshots__/home/full-page-visual-desktop-1280x720.png */
+  snapshotPathTemplate: '{testDir}/__screenshots__/{arg}-{projectName}{ext}',
+  /* Compare only: a missing baseline fails instead of being silently created.
+     Baselines are (re)generated on purpose with --update-snapshots=all (see the update workflow / docker service). */
+  updateSnapshots: 'none',
+  expect: {
+    toHaveScreenshot: {
+      animations: 'disabled',
+      caret: 'hide',
+      scale: 'css',
+      /* Start tolerant, tighten once the suite is proven stable. */
+      maxDiffPixelRatio: 0.01,
+    },
+  },
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -53,18 +75,39 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json' },
       dependencies: ['setup'],
+      testIgnore: VISUAL_SPECS,
     },
 
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'], storageState: 'playwright/.auth/user.json' },
       dependencies: ['setup'],
+      testIgnore: VISUAL_SPECS,
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'], storageState: 'playwright/.auth/user.json' },
       dependencies: ['setup'],
+      testIgnore: VISUAL_SPECS,
+    },
+
+    /* Visual regression: chromium only, fixed environment, signed out (no storageState, no setup dependency).
+       The resolution is part of the project name because it ends up in every baseline file name.
+       Add a 'visual-mobile-390x844' project later using the same pattern. */
+    {
+      name: 'visual-desktop-1280x720',
+      testMatch: VISUAL_SPECS,
+      retries: 0, // a retry would only hide a flaky screenshot
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 },
+        deviceScaleFactor: 1,
+        colorScheme: 'light',
+        reducedMotion: 'reduce',
+        locale: 'en-GB',
+        timezoneId: 'Europe/London',
+      },
     },
 
     /* Test against mobile viewports. */

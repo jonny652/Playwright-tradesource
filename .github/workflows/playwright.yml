@@ -4,7 +4,15 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  # Manual run. Tick "update_snapshots" to regenerate the visual baselines (see the visual job below).
+  workflow_dispatch:
+    inputs:
+      update_snapshots:
+        description: 'Regenerate visual baselines and upload them as an artifact (review, then commit)'
+        type: boolean
+        default: false
 jobs:
+  # Functional tests: chromium, firefox and webkit on the plain runner. Visual tests are excluded here (see npm test).
   test:
     timeout-minutes: 60
     # Pinned rather than ubuntu-latest, so the runner OS (and the browser builds made for it) doesn't change underneath us
@@ -43,7 +51,7 @@ jobs:
       if: steps.playwright-cache.outputs.cache-hit == 'true'
       run: npx playwright install-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npm test
       env:
         EMAIL: ${{ secrets.EMAIL }}
         PASSWORD: ${{ secrets.PASSWORD }}
@@ -52,4 +60,79 @@ jobs:
       with:
         name: playwright-report
         path: playwright-report/
+        retention-days: 30
+
+  # Visual regression: chromium only, inside the official Playwright image so fonts and rendering are identical on every run.
+  # The image is Ubuntu 24.04 (noble), matching the pinned runner above.
+  # KEEP THE IMAGE TAG EQUAL TO @playwright/test IN package-lock.json (and to docker-compose.visual.yml).
+  visual:
+    timeout-minutes: 30
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    env:
+      PLAYWRIGHT_IMAGE: mcr.microsoft.com/playwright:v1.64.1-noble
+    steps:
+    - uses: actions/checkout@v4
+    - name: Checkout tradesource-site (app under test)
+      uses: actions/checkout@v4
+      with:
+        repository: samGreenwood2022/tradesource-site
+        path: tradesource-site
+    - name: Install dependencies
+      run: npm ci
+    # COMPARE mode is the normal case: baselines are committed, nothing is ever written.
+    # UPDATE mode runs when someone ticks update_snapshots on a manual run, OR when no baseline image is committed yet.
+    # The second case lets the very first run on a new branch bootstrap itself, because GitHub only offers the
+    # "Run workflow" button for workflows that already exist on the default branch.
+    - name: Choose compare or update mode
+      id: mode
+      run: |
+        if [ -n "$(find tests/__screenshots__ -name '*.png' -print -quit 2>/dev/null)" ]; then HAVE=true; else HAVE=false; fi
+        if [ "${{ inputs.update_snapshots }}" = "true" ] || [ "$HAVE" = "false" ]; then
+          echo "update=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "update=false" >> "$GITHUB_OUTPUT"
+        fi
+        if [ "$HAVE" = "false" ]; then
+          {
+            echo "### No visual baselines are committed yet"
+            echo "This run generated them instead of comparing. Download the **visual-baselines** artifact, copy its contents into \`tests/__screenshots__/\`, review the images in gallery.html, then commit them. From the next run the job compares against them."
+          } >> "$GITHUB_STEP_SUMMARY"
+        fi
+    - name: Check no baseline is orphaned
+      if: ${{ steps.mode.outputs.update == 'false' }}
+      run: node scripts/visual-orphans.mjs
+    - name: Run visual tests
+      run: npx playwright test --project=visual-desktop-1280x720 ${{ steps.mode.outputs.update == 'true' && '--update-snapshots=all' || '' }}
+    - name: Build baseline manifest and review gallery
+      if: ${{ steps.mode.outputs.update == 'true' }}
+      run: |
+        node scripts/visual-manifest.mjs
+        node scripts/visual-gallery.mjs
+    - name: Upload new baselines (commit these after reviewing them)
+      if: ${{ steps.mode.outputs.update == 'true' && !cancelled() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: visual-baselines-run-${{ github.run_number }}-attempt-${{ github.run_attempt }}
+        path: tests/__screenshots__/
+        retention-days: 30
+    - name: Summarise visual failures
+      if: ${{ failure() }}
+      run: |
+        {
+          echo "### Visual regression failures"
+          echo "Download the **visual-diff** artifact. Each failure has an expected, actual and diff image."
+          echo
+          find test-results -name '*-diff.png' 2>/dev/null | sed 's/^/- /'
+        } >> "$GITHUB_STEP_SUMMARY"
+    - name: Upload visual diffs and report
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: visual-diff-run-${{ github.run_number }}-attempt-${{ github.run_attempt }}
+        path: |
+          test-results/
+          playwright-report/
         retention-days: 30

@@ -8,6 +8,9 @@ node_modules/
 /playwright/.auth/
 accessibility-reports
 
+# Visual regression: baselines and manifest.json ARE committed; the review gallery is generated, never committed
+/tests/__screenshots__/gallery.html
+
 # App under test, checked out locally/in CI for the webServer to run
 /tradesource-site/
 
