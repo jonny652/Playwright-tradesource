@@ -46,6 +46,11 @@ Visual tests were flaky or impossible to share between Windows and GitHub: basel
 - **CI:** new `visual` job in the Playwright container (image tag must match `@playwright/test` in `package-lock.json`, currently 1.64.1). If no baselines are committed yet, the job generates them and uploads them as an artifact instead of comparing (first run only); from then on it compares and never writes.
 - **Not yet verified at time of writing:** the Docker service and the GitHub job had not been run. Check the first runs, and confirm two compare runs in a row both pass.
 
+### 2026-10-29 — Verified visual regression Docker service
+Ran `npm run test:visual:docker` twice in a row on the `Feature/-visual-regression-tests` branch (`./tradesource-site` already cloned locally). Both runs: 6/6 passed against the committed baselines, no flakiness.
+- Docker Desktop was installed and running but `docker.exe` wasn't on PATH in the shell; worked around by adding `C:\Program Files\Docker\Docker\resources\bin` to PATH for the session rather than changing global PATH.
+- The GitHub Actions `visual` job itself is still unverified — only the local Docker path has been confirmed so far.
+
 ## Known Issues
 
 - None open currently.
