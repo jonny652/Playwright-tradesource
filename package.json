@@ -10,7 +10,7 @@
     "test": "playwright test --project=setup --project=chromium --project=firefox --project=webkit",
     "test:headed": "playwright test --headed --project=setup --project=chromium --project=firefox --project=webkit",
     "test:debug": "playwright test --debug --project=setup --project=chromium --project=firefox --project=webkit",
-    "test:ui": "playwright test --ui --project=setup --project=chromium --project=firefox --project=webkit",
+    "test:ui": "playwright test --ui --project=setup --project=chromium --project=firefox --project=webkit --project=visual-desktop-1280x720",
     "test:spec": "playwright test --project=setup --project=chromium --project=firefox --project=webkit",
     "test:chromium": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",

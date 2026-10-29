@@ -49,8 +49,10 @@ export default defineConfig({
       animations: 'disabled',
       caret: 'hide',
       scale: 'css',
-      /* Start tolerant, tighten once the suite is proven stable. */
-      maxDiffPixelRatio: 0.01,
+      /* Tightened from 0.01: that was loose enough to let a localized change (e.g. a small button,
+         ~0.08% of the homepage full-page image) pass without tripping the ratio. 0.0005 sits below
+         that so a change of that size now fails the full-page check too. */
+      maxDiffPixelRatio: 0.0005,
     },
   },
 
@@ -106,7 +108,7 @@ export default defineConfig({
         colorScheme: 'light',
         reducedMotion: 'reduce',
         locale: 'en-GB',
-        timezoneId: 'Europe/London',
+        timezoneId: 'GMT',
       },
     },
 
