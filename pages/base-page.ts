@@ -71,6 +71,14 @@ await this.signInButton.click();
       Array.from(document.images).every((img) => img.complete && img.naturalWidth > 0)
     );
   }
+  //The site's CSS falls back through Segoe UI/Arial, which resolve to different installed fonts on
+  //Windows vs the Linux CI runner and shift text wrapping/layout. Force one web font so screenshots
+  //render identically on both. Call right after navigating, before scrolling/waiting for images.
+  async forceConsistentFontForScreenshots() {
+    await this.page.addStyleTag({ url: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap' });
+    await this.page.addStyleTag({ content: `* { font-family: 'Roboto', sans-serif !important; }` });
+    await this.page.evaluate(() => document.fonts.ready);
+  }
 
 }
 

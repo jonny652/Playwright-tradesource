@@ -9,6 +9,7 @@ test.describe('signed out', () => {
   test('verify that the homepage matches its visual baseline', async ({ tradesourceHomepage, basePage }, testInfo) => {
     await basePage.disableOverlays();
     await tradesourceHomepage.navigateTo();
+    await basePage.forceConsistentFontForScreenshots();
     await basePage.scrollToBottom();
     await tradesourceHomepage.waitForLazyRegionsLoaded();
     await basePage.waitForAllImagesLoaded();
@@ -22,6 +23,7 @@ test.describe('signed out', () => {
   test('verify that the Vortix manufacturer page matches its visual baseline', async ({ manufacturerHomepage, basePage }, testInfo) => {
     await basePage.disableOverlays();
     await manufacturerHomepage.gotoManufacturerHomepage();
+    await basePage.forceConsistentFontForScreenshots();
     await basePage.scrollToBottom();
     await basePage.waitForAllImagesLoaded();
     await expectScreenshot(manufacturerHomepage.page, testInfo, 'manufacturer-vortix', { fullPage: true });
