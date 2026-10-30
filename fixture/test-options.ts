@@ -5,6 +5,7 @@ import { SearchResultsPage } from '../pages/searchresults-page';
 import { BasePage } from '../pages/base-page';
 import { SignInPage } from '../pages/sign-in-page';
 import { CertificatesPage } from '../pages/certificates-page';
+import { HaldenLocksHomepage } from '../pages/halden-locks-homepage';
 
 type MyFixtures = {
   tradesourceHomepage: TradesourceHomepage;
@@ -13,6 +14,7 @@ type MyFixtures = {
   basePage: BasePage
   signInPage: SignInPage
   certificatesPage: CertificatesPage
+  haldenLocksHomepage: HaldenLocksHomepage
 
 };
 
@@ -42,6 +44,10 @@ export const test = base.extend<MyFixtures>({
 
     certificatesPage: async ({ page }, use) => {
         await use(new CertificatesPage(page));
+    },
+
+    haldenLocksHomepage: async ({ page }, use) => {
+        await use(new HaldenLocksHomepage(page));
     },
 
 });

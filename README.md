@@ -51,3 +51,13 @@ written with that in mind.
 - Run the tests: npm test (or npm run test:ui for UI Mode)
 - CI (GitHub Actions) checks out `tradesource-site` into the same path automatically, so no extra setup is needed there
  
+## Visual regression
+
+`tests/visual-regression.spec.ts` takes full-page screenshots of the Vortix and Halden Locks overview pages with Playwright's `toHaveScreenshot()`. Before each screenshot the page is scrolled to the bottom so lazy-loaded images load.
+
+- Baselines live in `tests/visual-baselines/<os>/<browser>/<name>-baseline.png`, one per OS and browser.
+- If a baseline is missing, the run writes it ("A snapshot doesn't exist ... writing actual") and the test passes. Later runs compare against it.
+- To regenerate baselines on purpose: `npx playwright test tests/visual-regression.spec.ts --update-snapshots`
+- When a comparison fails, `test-results/` and the HTML report contain `<name>-actual.png` (this run), `<name>-expected.png` (the baseline) and `<name>-diff.png` (the differences highlighted).
+- All PNGs are gitignored except `tests/visual-baselines/linux/`, the baselines CI compares against. Windows/macOS baselines stay local.
+- **Linux baselines for CI:** the first CI run generates them and uploads them as the `linux-visual-baselines` artifact. Download it, extract it into `tests/visual-baselines/linux/`, and commit. Failed comparisons on CI are uploaded as the `visual-diffs` artifact.

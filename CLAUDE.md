@@ -36,6 +36,17 @@ The GitHub Actions workflow (`.github/workflows/playwright.yml`) checked out onl
   - Updated `README.md`'s Getting Started section to tell local devs to clone the site into `./tradesource-site`.
 - Verified locally: cloned the site repo into `./tradesource-site`, ran `node server.js` directly (on a spare port, since a dev server was already running on 4321) — served HTTP 200 with no dependency install required, confirming the CI path will work.
 
+### 2026-10-30 — Added visual regression tests
+`tests/visual-regression.spec.ts` now has full-page `toHaveScreenshot()` tests for the Vortix and Halden Locks overview pages.
+- `BasePage.loadLazyImages()` scrolls the page one screen at a time to load lazy images, scrolls back to the top, then waits for every `<img>` to finish loading.
+- New `pages/halden-locks-homepage.ts` page object, registered as the `haldenLocksHomepage` fixture.
+- Tests call `disableOverlays()` before navigating so the cookie banner and feature popup don't make screenshots flaky.
+- `playwright.config.ts`: `snapshotPathTemplate` → `tests/visual-baselines/{platform}/{projectName}/{arg}-baseline{ext}`, `updateSnapshots: 'missing'`, `maxDiffPixelRatio: 0.01`, animations disabled.
+- Missing baselines are written and the test passes (verified with Playwright 1.64). Failures produce `<name>-actual.png`, `<name>-expected.png` and `<name>-diff.png` in `test-results/`.
+- Verified by running against a temporary config that skipped sign-in, because the local `.env` had placeholder credentials and auth setup failed.
+- `.gitignore` ignores `*.png` except `tests/visual-baselines/linux/**`.
+- CI uploads `linux-visual-baselines` (generated on the first run, to be committed) and `visual-diffs` (on failure) artifacts.
+
 ## Known Issues
 
 - None open currently.
