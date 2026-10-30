@@ -37,7 +37,7 @@ export default defineConfig({
   /* Write a baseline when it doesn't exist yet (locally and on CI), otherwise compare against it */
   updateSnapshots: 'missing',
   expect: {
-    toHaveScreenshot: { animations: 'disabled', maxDiffPixelRatio: 0.01 },
+    toHaveScreenshot: { animations: 'disabled', maxDiffPixelRatio: 0.001 },
   },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
