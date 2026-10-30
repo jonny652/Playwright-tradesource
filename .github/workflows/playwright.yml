@@ -1,7 +1,9 @@
 name: Playwright Tests
 on:
   push:
-    branches: [ main, master ]
+    # Feature branches too (not just main/master), so a commit message containing "[update-visual-baselines]"
+    # can bootstrap baselines on a branch before it's merged - see the "Decide whether to generate..." step below.
+    branches: [ main, master, 'Feature/**' ]
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
@@ -48,14 +50,21 @@ jobs:
     - name: Install Playwright system dependencies
       if: steps.playwright-cache.outputs.cache-hit == 'true'
       run: npx playwright install-deps
+    # True for an explicit workflow_dispatch run with the checkbox ticked (only available once this workflow
+    # file is on the default branch), OR a push whose commit message contains "[update-visual-baselines]"
+    # (works on any branch, including before this is merged).
+    - name: Decide whether to generate or compare visual regression baselines
+      id: visual-mode
+      run: |
+        echo "generate=${{ (github.event_name == 'workflow_dispatch' && inputs.update_visual_baselines) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[update-visual-baselines]')) }}" >> "$GITHUB_OUTPUT"
     - name: Run Playwright tests
-      if: ${{ !inputs.update_visual_baselines }}
+      if: steps.visual-mode.outputs.generate != 'true'
       run: npx playwright test
       env:
         EMAIL: ${{ secrets.EMAIL }}
         PASSWORD: ${{ secrets.PASSWORD }}
     - name: Generate visual regression baselines
-      if: ${{ inputs.update_visual_baselines }}
+      if: steps.visual-mode.outputs.generate == 'true'
       run: npm run test:visual:generate-baselines
       env:
         EMAIL: ${{ secrets.EMAIL }}
@@ -67,7 +76,7 @@ jobs:
         path: playwright-report/
         retention-days: 30
     - name: Upload visual baselines
-      if: ${{ inputs.update_visual_baselines && !cancelled() }}
+      if: steps.visual-mode.outputs.generate == 'true' && !cancelled()
       uses: actions/upload-artifact@v4
       with:
         name: visual-baselines
