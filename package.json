@@ -15,8 +15,6 @@
     "test:chromium": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
-    "test:visual": "playwright test tests/visual-regression.spec.ts",
-    "test:visual:generate-baselines": "playwright test tests/visual-regression.spec.ts --update-snapshots",
     "report": "playwright show-report",
     "codegen": "playwright codegen http://localhost:4321"
   },
