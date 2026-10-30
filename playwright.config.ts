@@ -39,6 +39,19 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    /* Keep locale/timezone consistent between local (Windows) and CI (Linux) runs. */
+    locale: 'en-GB',
+    timezoneId: 'Europe/London',
+  },
+
+  /* Drop the {platform} token so Windows-local and Linux-CI resolve to the same baseline file per browser project.
+     Baselines are generated in CI only and copied in by hand - see utility/visual-regression.ts. */
+  snapshotPathTemplate: 'tests/__screenshots__/{projectName}/{arg}{ext}',
+
+  expect: {
+    /* Absorb minor cross-OS font/anti-aliasing noise without masking real regressions. */
+    toHaveScreenshot: { maxDiffPixelRatio: 0.02 },
   },
 
   /* Configure projects for major browsers */

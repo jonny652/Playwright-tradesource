@@ -4,6 +4,12 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      update_visual_baselines:
+        description: 'Generate/update visual regression baselines instead of comparing against them'
+        type: boolean
+        default: false
 jobs:
   test:
     timeout-minutes: 60
@@ -43,7 +49,14 @@ jobs:
       if: steps.playwright-cache.outputs.cache-hit == 'true'
       run: npx playwright install-deps
     - name: Run Playwright tests
+      if: ${{ !inputs.update_visual_baselines }}
       run: npx playwright test
+      env:
+        EMAIL: ${{ secrets.EMAIL }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+    - name: Generate visual regression baselines
+      if: ${{ inputs.update_visual_baselines }}
+      run: npm run test:visual:generate-baselines
       env:
         EMAIL: ${{ secrets.EMAIL }}
         PASSWORD: ${{ secrets.PASSWORD }}
@@ -52,4 +65,11 @@ jobs:
       with:
         name: playwright-report
         path: playwright-report/
+        retention-days: 30
+    - name: Upload visual baselines
+      if: ${{ inputs.update_visual_baselines && !cancelled() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: visual-baselines
+        path: tests/__screenshots__/
         retention-days: 30

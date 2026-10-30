@@ -61,6 +61,16 @@ await this.signInButton.click();
   getCurrentUrl() {
     return this.page.url();
   }
+  //Scroll to the bottom of the page, to trigger any below-the-fold lazy-loaded content
+  async scrollToBottom() {
+    await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  }
+  //Wait for every <img> currently on the page to finish loading, so screenshots don't catch images mid-load
+  async waitForAllImagesLoaded() {
+    await this.page.waitForFunction(() =>
+      Array.from(document.images).every((img) => img.complete && img.naturalWidth > 0)
+    );
+  }
 
 }
 
