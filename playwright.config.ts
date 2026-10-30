@@ -32,6 +32,13 @@ export default defineConfig({
   workers: 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
+  /* Visual regression baselines: one per OS and browser, e.g. tests/visual-baselines/linux/chromium/vortix-overview-baseline.png */
+  snapshotPathTemplate: '{testDir}/visual-baselines/{platform}/{projectName}/{arg}-baseline{ext}',
+  /* Write a baseline when it doesn't exist yet (locally and on CI), otherwise compare against it */
+  updateSnapshots: 'missing',
+  expect: {
+    toHaveScreenshot: { animations: 'disabled', maxDiffPixelRatio: 0.001 },
+  },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */

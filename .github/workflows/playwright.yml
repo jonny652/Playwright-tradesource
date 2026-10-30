@@ -53,3 +53,22 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+    # On the first run there are no Linux baselines in the repo, so they are generated here.
+    # Download this artifact, extract it into tests/visual-baselines/linux/ and commit it
+    - name: Upload Linux visual baselines
+      uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: linux-visual-baselines
+        path: tests/visual-baselines/linux/
+        if-no-files-found: ignore
+        retention-days: 30
+    # Actual, expected (baseline copy) and diff screenshots for any failed visual comparison
+    - name: Upload visual diffs
+      uses: actions/upload-artifact@v4
+      if: ${{ failure() }}
+      with:
+        name: visual-diffs
+        path: test-results/**/*.png
+        if-no-files-found: ignore
+        retention-days: 30

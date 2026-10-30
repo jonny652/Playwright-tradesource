@@ -61,6 +61,17 @@ await this.signInButton.click();
   getCurrentUrl() {
     return this.page.url();
   }
+  //Scroll down the page a screen at a time so lazy-loaded images load, then back to the top and wait until every image has finished loading
+  async loadLazyImages() {
+    await this.page.evaluate(async () => {
+      for (let y = 0; y < document.body.scrollHeight; y += window.innerHeight) {
+        window.scrollTo(0, y);
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
+      window.scrollTo(0, 0);
+    });
+    await this.page.waitForFunction(() => Array.from(document.images).every((img) => img.complete));
+  }
 
 }
 

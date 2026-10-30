@@ -11,5 +11,9 @@ accessibility-reports
 # App under test, checked out locally/in CI for the webServer to run
 /tradesource-site/
 
+# Screenshots: ignore all PNGs except the Linux visual baselines used by CI
+*.png
+!/tests/visual-baselines/linux/**/*.png
+
 # Local secrets
 .env
