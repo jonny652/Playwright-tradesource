@@ -57,6 +57,41 @@ await this.signInButton.click();
   async disableOverlays() {
     await this.page.context().addCookies([{ name: 'tradesource_overlays', value: 'off', domain: 'localhost', path: '/' }]);
   }
+  //Scroll the page one screen at a time to trigger any viewport-based image loading, then scroll back
+  //to the top and wait until every <img> has finished loading. Call before taking a screenshot.
+  async waitForLazyImages() {
+    const viewportHeight = this.page.viewportSize()?.height ?? 720;
+
+    // Force instant scrolling so smooth-scroll CSS doesn't leave us reading a mid-animation scrollY
+    await this.page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; });
+
+    let previousScrollY = -1;
+    for (let i = 0; i < 50; i++) { // safety cap against an unexpected infinite-scroll page
+      const { scrollY, scrollHeight, clientHeight } = await this.page.evaluate(() => ({
+        scrollY: window.scrollY,
+        scrollHeight: document.body.scrollHeight,
+        clientHeight: window.innerHeight,
+      }));
+
+      if (scrollY + clientHeight >= scrollHeight) break; // reached the bottom
+      if (scrollY === previousScrollY) break;            // no progress made, stop rather than loop forever
+      previousScrollY = scrollY;
+
+      await this.page.evaluate((h) => window.scrollBy(0, h), viewportHeight);
+      await this.page.waitForTimeout(100); // give this screen's images a moment to start requesting
+    }
+
+    await this.page.evaluate(() => window.scrollTo(0, 0));
+
+    // document.fonts.ready guards against a web-font swap shifting text after screenshot,
+    // relevant given the tight maxDiffPixelRatio set in playwright.config.ts
+    await this.page.evaluate(() => document.fonts.ready);
+
+    // img.complete is true for broken/404 images too, so this can't hang on a bad image
+    await this.page.waitForFunction(() =>
+      Array.from(document.images).every((img) => img.complete)
+    );
+  }
   //Return the URL of the page currently loaded
   getCurrentUrl() {
     return this.page.url();

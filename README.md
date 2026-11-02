@@ -50,4 +50,14 @@ written with that in mind.
 - Clone the practice site into `./tradesource-site` (git clone https://github.com/samGreenwood2022/tradesource-site.git tradesource-site) — `playwright.config.ts` starts it automatically from there (serves http://localhost:4321), or start it yourself in its own terminal with `npm start` from that folder and Playwright will reuse it
 - Run the tests: npm test (or npm run test:ui for UI Mode)
 - CI (GitHub Actions) checks out `tradesource-site` into the same path automatically, so no extra setup is needed there
+
+## Visual regression testing
+
+- Visual tests live in `tests/visual-regression.spec.ts` and compare full-page screenshots of each manufacturer overview page against a committed baseline, using Playwright's built-in `toHaveScreenshot()`.
+- Baselines are stored per OS and per browser project, under `tests/visual-baselines/{platform}/{projectName}/`, because fonts and rendering differ slightly across operating systems and browser engines.
+- Only the `tests/visual-baselines/linux/` baselines are committed to the repo (see `.gitignore`) — CI always runs on a pinned `ubuntu-24.04` runner, so the Linux baselines are the single source of truth. Baselines for other operating systems are generated locally on demand and are never committed.
+- Missing baselines are created automatically (`updateSnapshots: 'missing'` in `playwright.config.ts`), both locally and in CI, so a first run on a new machine or browser combination just writes the baseline instead of failing.
+- To deliberately regenerate a baseline after an intentional UI change, overwrite it explicitly: `npm run test:update-snapshots` (or `npx playwright test tests/visual-regression.spec.ts --update-snapshots` to target just the visual tests).
+- To get the Linux baselines onto your machine so they can be committed: download the `linux-visual-baselines` artifact from the relevant GitHub Actions run, extract it into `tests/visual-baselines/linux/`, then `git add tests/visual-baselines/linux` and commit.
+- On failure, the `visual-diffs` artifact (uploaded only when a run fails) contains the `-actual`, `-expected` and `-diff` PNGs so you can see exactly what changed without re-running the tests.
  

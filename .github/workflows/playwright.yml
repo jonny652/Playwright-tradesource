@@ -53,3 +53,16 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: linux-visual-baselines
+        path: tests/visual-baselines/linux/
+        retention-days: 30
+        if-no-files-found: warn
+    - uses: actions/upload-artifact@v4
+      if: ${{ failure() }}
+      with:
+        name: visual-diffs
+        path: test-results/**/*.png
+        retention-days: 30
