@@ -15,6 +15,7 @@
     "test:chromium": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
+    "test:update-snapshots": "playwright test --update-snapshots",
     "report": "playwright show-report",
     "codegen": "playwright codegen http://localhost:4321"
   },

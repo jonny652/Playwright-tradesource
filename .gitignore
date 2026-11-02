@@ -13,3 +13,9 @@ accessibility-reports
 
 # Local secrets
 .env
+
+# Visual regression baselines: only the Linux (CI) baselines are committed —
+# they're the source of truth since CI is pinned to one OS/browser-build combo.
+# Local baselines for other OSes are regenerated on demand via updateSnapshots: 'missing'.
+*.png
+!tests/visual-baselines/linux/**/*.png

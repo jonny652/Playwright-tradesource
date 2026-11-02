@@ -22,6 +22,16 @@ const isCI = !!(globalThis as {
 
 export default defineConfig({
   testDir: './tests',
+  /* Keep a separate screenshot baseline per OS and per browser project, since fonts and rendering differ across them */
+  snapshotPathTemplate: '{testDir}/visual-baselines/{platform}/{projectName}/{arg}-baseline{ext}',
+  /* Auto-generate a baseline the first time a snapshot is missing, locally and on CI */
+  updateSnapshots: 'missing',
+  expect: {
+    toHaveScreenshot: {
+      animations: 'disabled',
+      maxDiffPixelRatio: 0.001,
+    },
+  },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
