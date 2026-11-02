@@ -14,9 +14,6 @@ for (const { name, path } of manufacturerPages) {
     await page.waitForLoadState('networkidle'); // let the async certification-bodies GraphQL fetch settle
     await basePage.waitForLazyImages();
 
-    // TEMPORARY — forcing a mismatch so the user can inspect the actual/expected/diff artifacts
-    await page.evaluate(() => { document.body.style.backgroundColor = 'red'; });
-
     await expect(page).toHaveScreenshot(`${name}-overview.png`, { fullPage: true });
   });
 }
