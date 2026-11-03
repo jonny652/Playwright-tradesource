@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test';
+import { test as base } from 'playwright-bdd';
 import manufacturers from '../test-data/manufacturers.json';
 import { TradesourceHomepage } from '../pages/tradesource-homepage';
 import { ManufacturerHomepage } from '../pages/manufacturer-homepage';

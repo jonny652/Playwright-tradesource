@@ -43,7 +43,7 @@ jobs:
       if: steps.playwright-cache.outputs.cache-hit == 'true'
       run: npx playwright install-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx bddgen && npx playwright test
       env:
         EMAIL: ${{ secrets.EMAIL }}
         PASSWORD: ${{ secrets.PASSWORD }}

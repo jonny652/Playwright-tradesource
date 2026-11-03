@@ -7,15 +7,16 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "test:debug": "playwright test --debug",
-    "test:ui": "playwright test --ui",
-    "test:spec": "playwright test",
-    "test:chromium": "playwright test --project=chromium",
-    "test:firefox": "playwright test --project=firefox",
-    "test:webkit": "playwright test --project=webkit",
-    "test:update-snapshots": "playwright test --update-snapshots",
+    "bddgen": "bddgen",
+    "test": "bddgen && playwright test",
+    "test:headed": "bddgen && playwright test --headed",
+    "test:debug": "bddgen && playwright test --debug",
+    "test:ui": "bddgen && playwright test --ui",
+    "test:spec": "bddgen && playwright test",
+    "test:chromium": "bddgen && playwright test --project=chromium --project=bdd-chromium",
+    "test:firefox": "bddgen && playwright test --project=firefox",
+    "test:webkit": "bddgen && playwright test --project=webkit",
+    "test:update-snapshots": "bddgen && playwright test --update-snapshots",
     "report": "playwright show-report",
     "codegen": "playwright codegen http://localhost:4321"
   },
@@ -27,6 +28,7 @@
     "@playwright/test": "^1.64.1",
     "@types/node": "^26.6.5",
     "axe-html-reporter": "^2.2.11",
+    "playwright-bdd": "^9.2.1",
     "typescript": "^7.0.2"
   }
 }
