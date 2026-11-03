@@ -1,3 +1,4 @@
+// Extend playwright-bdd's `test` (a drop-in superset of @playwright/test's) so BDD steps can use these fixtures too.
 import { test as base } from 'playwright-bdd';
 import manufacturers from '../test-data/manufacturers.json';
 import { TradesourceHomepage } from '../pages/tradesource-homepage';
@@ -7,6 +8,11 @@ import { BasePage } from '../pages/base-page';
 import { SignInPage } from '../pages/sign-in-page';
 import { CertificatesPage } from '../pages/certificates-page';
 
+/** Per-test object for sharing data between BDD steps (playwright-bdd's equivalent of a Cucumber World). */
+export type BddContext = {
+  manufacturerHomepage?: ManufacturerHomepage;
+};
+
 type MyFixtures = {
   tradesourceHomepage: TradesourceHomepage;
   manufacturerHomepage: ManufacturerHomepage;
@@ -14,6 +20,7 @@ type MyFixtures = {
   basePage: BasePage
   signInPage: SignInPage
   certificatesPage: CertificatesPage
+  ctx: BddContext
 
 };
 
@@ -43,6 +50,11 @@ export const test = base.extend<MyFixtures>({
 
     certificatesPage: async ({ page }, use) => {
         await use(new CertificatesPage(page));
+    },
+
+    // Fresh empty object per test; BDD steps store and read shared objects on it.
+    ctx: async ({}, use) => {
+        await use({});
     },
 
 });

@@ -14,6 +14,11 @@ Playwright + TypeScript test suite for the Trade Source site (manufacturer pages
 
 ## Progress Log
 
+### 2026-11-03 — Added `ctx` fixture for sharing state between BDD steps
+`features/steps/manufacturer.steps.ts` stored its page object in a file-level `let` variable so the Given and Then steps could share it (a Cucumber-World habit). That variable survives between tests in the same worker.
+- **Fix:** added a `ctx` fixture (type `BddContext`) to `fixture/test-options.ts`, a fresh empty object per test. Steps now store and read shared objects on `ctx` (e.g. `ctx.manufacturerHomepage`). Add new shared fields to `BddContext`.
+- Steps now throw a clear error if the manufacturer name isn't in `test-data/manufacturers.json`, or if the Then step runs without the Given step.
+
 ### 2026-11-03 — Added BDD testing via playwright-bdd
 Installed `playwright-bdd` and wired up Gherkin feature files as a proof of concept, alongside the existing hand-written specs (which keep running unchanged).
 - Feature files live in `features/*.feature`; step definitions in `features/steps/*.ts`. Step files import `Given`/`When`/`Then` from `features/steps/bdd.ts`, which calls `createBdd(test)` using the project's existing shared `test` from `fixture/test-options.ts` — so BDD steps reuse the same page-object fixtures (`manufacturerHomepage`, `basePage`, etc.) as the regular specs.

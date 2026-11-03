@@ -62,6 +62,7 @@ export default defineConfig({
     /* Sign in once (or re-use a still-valid saved session) before the browser projects run. */
     {
       name: 'setup',
+      // Non-BDD projects set testDir explicitly so they don't pick up the generated BDD specs.
       testDir: './tests',
       testMatch: /.*\.setup\.ts/,
     },

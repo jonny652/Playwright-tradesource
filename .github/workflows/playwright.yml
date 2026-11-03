@@ -42,6 +42,7 @@ jobs:
     - name: Install Playwright system dependencies
       if: steps.playwright-cache.outputs.cache-hit == 'true'
       run: npx playwright install-deps
+    # bddgen regenerates .features-gen/ from the .feature files before the run
     - name: Run Playwright tests
       run: npx bddgen && npx playwright test
       env:
