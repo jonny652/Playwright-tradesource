@@ -1,4 +1,5 @@
 import { test as base } from '@playwright/test';
+import manufacturers from '../test-data/manufacturers.json';
 import { TradesourceHomepage } from '../pages/tradesource-homepage';
 import { ManufacturerHomepage } from '../pages/manufacturer-homepage';
 import { SearchResultsPage } from '../pages/searchresults-page';
@@ -24,7 +25,7 @@ export const test = base.extend<MyFixtures>({
     },
 
     manufacturerHomepage: async ({ page }, use) => {
-        await use(new ManufacturerHomepage(page));
+        await use(new ManufacturerHomepage(page, manufacturers[0]));
     },
 
     searchResultsPage: async ({ page }, use) => {

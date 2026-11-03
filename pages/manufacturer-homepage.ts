@@ -1,6 +1,13 @@
 import { Locator, Page} from '@playwright/test';
 import { BasePage } from './base-page';
 
+export interface ManufacturerData {
+  name: string;
+  urlPath: string;
+  tagline: string;
+  websiteHref: string;
+}
+
 export class ManufacturerHomepage extends BasePage {
 
 //LOCATORS..............................................
@@ -10,13 +17,14 @@ export class ManufacturerHomepage extends BasePage {
   readonly manufacturerWebsiteLink: Locator;
   readonly contactManufacturerButton: Locator;
   readonly loginModal: Locator;
-  readonly url = '/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview';
+  readonly url: string;
 
-  constructor(page: Page) {
+  constructor(page: Page, manufacturer: ManufacturerData) {
     super(page);
 
+    this.url = manufacturer.urlPath;
     this.nbsLogo = page.getByRole('link', { name: 'NBS' });
-    this.h1heading = page.getByRole('heading', { name: 'Vortix' });
+    this.h1heading = page.getByRole('heading', { name: manufacturer.name });
     this.h1paragraph = page.getByTestId('manufacturer-tagline');
     this.manufacturerWebsiteLink = page.getByRole('link', { name: 'Website' });
     this.contactManufacturerButton = page.getByRole('button', { name: 'Contact Manufacturer' });

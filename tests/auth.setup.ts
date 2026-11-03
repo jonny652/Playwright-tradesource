@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { test as setup, expect } from '@playwright/test';
-import { ManufacturerHomepage } from '../pages/manufacturer-homepage';
+import { BasePage } from '../pages/base-page';
 import { SignInPage } from '../pages/sign-in-page';
 
 const authFile = 'playwright/.auth/user.json';
@@ -12,9 +12,9 @@ setup('authenticate', async ({ browser }, testInfo) => {
   //Re-use the saved session if the file exists and still signs the user in
   if (fs.existsSync(authFile)) {
     const savedContext = await browser.newContext({ baseURL, storageState: authFile });
-    const manufacturerHomepage = new ManufacturerHomepage(await savedContext.newPage());
-    await manufacturerHomepage.gotoManufacturerHomepage();
-    const signedIn = await manufacturerHomepage.userMenuButton
+    const basePage = new BasePage(await savedContext.newPage());
+    await basePage.navigateTo();
+    const signedIn = await basePage.userMenuButton
       .waitFor({ state: 'visible', timeout: 5000 })
       .then(() => true, () => false);
     await savedContext.close();
@@ -26,17 +26,17 @@ setup('authenticate', async ({ browser }, testInfo) => {
   //No valid session saved, so sign in and save a new one
   const context = await browser.newContext({ baseURL });
   const page = await context.newPage();
-  const manufacturerHomepage = new ManufacturerHomepage(page);
+  const basePage = new BasePage(page);
   const signInPage = new SignInPage(page);
 
-  await manufacturerHomepage.gotoManufacturerHomepage();
-  await manufacturerHomepage.handleOverlays();
-  await manufacturerHomepage.clickSignInButton();
+  await basePage.navigateTo();
+  await basePage.handleOverlays();
+  await basePage.clickSignInButton();
   await signInPage.enterEmailAddress();
   await signInPage.clickNextButton();
   await signInPage.enterPassword();
   await signInPage.signInPasswordButton();
-  await expect(manufacturerHomepage.userMenuButton).toBeVisible();
+  await expect(basePage.userMenuButton).toBeVisible();
 
   await context.storageState({ path: authFile });
   await context.close();
