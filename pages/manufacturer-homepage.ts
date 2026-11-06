@@ -75,7 +75,7 @@ export class ManufacturerHomepage extends BasePage {
     await this.page.goto(this.url);
   }
   
-  //Returnes the manufacturer telephone number locator
+  //Returns the manufacturer telephone number locator
   async verifyManufacturerTelephoneNumber() {
     return this.manufacturerTelephoneNumber;
   }
