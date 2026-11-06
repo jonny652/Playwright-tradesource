@@ -56,7 +56,7 @@ test.describe('sign-in behaviour (generic, verified against one manufacturer pag
     //verifry that the manufacturer telephone number is visible and contains the correct text and when clicked, it opens the login modal
     test('verify that the manufacturer telephone number is visible and contains the correct text', async ({manufacturerHomepage}) => {
       await expect(manufacturerHomepage.manufacturerTelephoneNumber).toBeVisible();
-      await expect(manufacturerHomepage.manufacturerTelephoneNumber).toHaveText(manufacturers.manufacturerPhone);
+      await expect(manufacturerHomepage.verifyManufacturerTelephoneNumber).toHaveText(manufacturer.);
     });
 
 
