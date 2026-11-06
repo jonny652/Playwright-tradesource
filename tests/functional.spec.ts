@@ -53,6 +53,13 @@ test.describe('sign-in behaviour (generic, verified against one manufacturer pag
       await expect(manufacturerHomepage.loginModal).toBeVisible();
     });
 
+    //verifry that the manufacturer telephone number is visible and contains the correct text and when clicked, it opens the login modal
+    test('verify that the manufacturer telephone number is visible and contains the correct text', async ({manufacturerHomepage}) => {
+      await expect(manufacturerHomepage.manufacturerTelephoneNumber).toBeVisible();
+      await expect(manufacturerHomepage.manufacturerTelephoneNumber).toHaveText(manufacturers.manufacturerPhone);
+    });
+
+
     //verify the sign in process works as expected and returns the user to the page they clicked sign in from
     test('verify that the signin process returns the user to the page they started from', async ({basePage, signInPage}) => {
       const startUrl = basePage.getCurrentUrl();

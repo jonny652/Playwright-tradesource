@@ -20,6 +20,7 @@ export class ManufacturerHomepage extends BasePage {
   readonly contactManufacturerButton: Locator;
   readonly loginModal: Locator;
   readonly url: string;
+  readonly manufacturerTelephoneNumber: Locator
 
   constructor(page: Page, manufacturer: ManufacturerData) {
     super(page);
@@ -28,6 +29,7 @@ export class ManufacturerHomepage extends BasePage {
     this.nbsLogo = page.getByRole('link', { name: 'NBS' });
     this.h1heading = page.getByRole('heading', { name: manufacturer.name });
     this.h1paragraph = page.getByTestId('manufacturer-tagline');
+    this.manufacturerTelephoneNumber = page.getByTestId('manufacturer-phone');
     this.manufacturerWebsiteLink = page.getByRole('link', { name: 'Website' });
     this.contactManufacturerButton = page.getByRole('button', { name: 'Contact Manufacturer' });
     this.loginModal = page.getByRole('button', { name: 'Sign in to continue' });
@@ -72,5 +74,11 @@ export class ManufacturerHomepage extends BasePage {
   async gotoManufacturerHomepage() {
     await this.page.goto(this.url);
   }
+  
+  //Returnes the manufacturer telephone number locator
+  async verifyManufacturerTelephoneNumber() {
+    return this.manufacturerTelephoneNumber;
+  }
+
 
 }
