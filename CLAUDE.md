@@ -4,14 +4,25 @@ Playwright + TypeScript test suite for the Trade Source site (manufacturer pages
 
 ## Setup
 
-- `npm test` — run full suite (chromium, firefox, webkit)
-- `npm run test:chromium` / `test:firefox` / `test:webkit` — single browser
+- `npm test` — run full suite (chromium, firefox, webkit, plus BDD scenarios on chromium)
+- `npm run test:chromium` / `test:firefox` / `test:webkit` — single browser (`test:chromium` also runs the BDD project)
 - `npm run test:ui` — Playwright UI mode
 - `npm run report` — open last HTML report
+- `npm run bddgen` — regenerate Playwright specs from `features/*.feature` + `features/steps/*.ts` into `.features-gen/` (gitignored); every `test*` script already runs this first automatically
 - Dev server must be reachable at `http://localhost:4321` (config `webServer` runs `npm run start` if not already up, reusing an existing server locally)
 - VS Code: `ms-playwright.playwright` extension gives per-test run arrows in the Testing sidebar (flask icon) and inline gutter icons
 
 ## Progress Log
+
+### 2026-11-03 — Added BDD testing via playwright-bdd
+Installed `playwright-bdd` and wired up Gherkin feature files as a proof of concept, alongside the existing hand-written specs (which keep running unchanged).
+- Feature files live in `features/*.feature`; step definitions in `features/steps/*.ts`. Step files import `Given`/`When`/`Then` from `features/steps/bdd.ts`, which calls `createBdd(test)` using the project's existing shared `test` from `fixture/test-options.ts` — so BDD steps reuse the same page-object fixtures (`manufacturerHomepage`, `basePage`, etc.) as the regular specs.
+- `playwright-bdd`'s `createBdd()` requires the custom `test` to be extended starting from `playwright-bdd`'s own `test` export, not `@playwright/test`'s directly — changed `fixture/test-options.ts`'s import accordingly (`import { test as base } from 'playwright-bdd'`). This is a drop-in superset of `@playwright/test`'s `test`, so all existing specs are unaffected.
+- `playwright.config.ts`: added `defineBddConfig({ features: 'features/*.feature', steps: 'features/steps/*.ts' })` and a new `bdd-chromium` project pointed at its generated output dir (`.features-gen/`, gitignored). The existing `setup`/`chromium`/`firefox`/`webkit` projects each now set `testDir: './tests'` explicitly (previously inherited from the top-level config), since a BDD testDir at the root requires non-BDD projects to declare their own.
+- Started with chromium only for BDD, to keep the initial footprint small — copy the `bdd-chromium` project entry for firefox/webkit once more scenarios are migrated.
+- `package.json`: every script that runs `playwright test` now runs `bddgen` first (regenerates `.features-gen/` from the current feature/step files — required before every run, not just once).
+- CI (`.github/workflows/playwright.yml`): test step is now `npx bddgen && npx playwright test`.
+- One proof-of-concept scenario (`features/manufacturer-page.feature`) re-expresses the existing "h1 header is as expected" check for Vortix in Gherkin. Verified full suite (53 tests: all prior specs + the new BDD scenario) passes across chromium/firefox/webkit + bdd-chromium, including a from-scratch `.features-gen` regeneration to confirm the CI path works.
 
 ### 2026-10-14 — Fixed locator in paragraph text test
 `tests/smoketests.spec.ts` (test "verify the h1 paragraph text is as expected") was using `page.getByRole('heading', { name: 'Vortix' }).locator('p')`, assuming the tagline `<p>` was nested inside the `<h1>`. The actual markup is `<p class="manufacturer-tagline" data-testid="manufacturer-tagline">`, a sibling element, not a child of the heading.

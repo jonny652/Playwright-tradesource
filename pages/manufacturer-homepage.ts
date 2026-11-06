@@ -1,3 +1,5 @@
+// Page object for a manufacturer's overview page (e.g. Vortix, Halden Locks UK). Locators and
+// text are built from the ManufacturerData passed in, so one class covers every manufacturer.
 import { Locator, Page} from '@playwright/test';
 import { BasePage } from './base-page';
 
@@ -18,6 +20,7 @@ export class ManufacturerHomepage extends BasePage {
   readonly contactManufacturerButton: Locator;
   readonly loginModal: Locator;
   readonly url: string;
+  readonly manufacturerTelephoneNumber: Locator
 
   constructor(page: Page, manufacturer: ManufacturerData) {
     super(page);
@@ -26,6 +29,7 @@ export class ManufacturerHomepage extends BasePage {
     this.nbsLogo = page.getByRole('link', { name: 'NBS' });
     this.h1heading = page.getByRole('heading', { name: manufacturer.name });
     this.h1paragraph = page.getByTestId('manufacturer-tagline');
+    this.manufacturerTelephoneNumber = page.getByTestId('manufacturer-phone');
     this.manufacturerWebsiteLink = page.getByRole('link', { name: 'Website' });
     this.contactManufacturerButton = page.getByRole('button', { name: 'Contact Manufacturer' });
     this.loginModal = page.getByRole('button', { name: 'Sign in to continue' });
@@ -66,8 +70,15 @@ export class ManufacturerHomepage extends BasePage {
   }
 
 
+  //Navigate directly to this manufacturer's overview page
   async gotoManufacturerHomepage() {
     await this.page.goto(this.url);
   }
+  
+  //Returns the manufacturer telephone number locator
+  async verifyManufacturerTelephoneNumber() {
+    return this.manufacturerTelephoneNumber;
+  }
+
 
 }

@@ -1,3 +1,4 @@
+// Page object for the search results page, including the "Manufacturer" results tab.
 import { Locator, Page} from '@playwright/test';
 import { BasePage } from './base-page';
 
@@ -22,10 +23,12 @@ export class SearchResultsPage extends BasePage {
     return this.nbsLogo;
   }
 
+  //Click the "Manufacturer" tab on the search results page
   async clickManufacturerTab() {
     await this.manufacturerTab.click();
   }
-    async getManufacturerName() {   
+  //Click the manufacturer name heading in the search results
+    async getManufacturerName() {
     await this.manufacturerName.click();
 }
 

@@ -1,3 +1,5 @@
+// Visual regression: screenshots each manufacturer overview page and compares it against the
+// saved baseline images in tests/visual-baselines/, failing if the rendered layout has changed.
 import { test, expect } from '../fixture/test-options';
 
 const manufacturerPages = [
@@ -5,6 +7,7 @@ const manufacturerPages = [
   { name: 'vortix', path: '/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview' },
 ];
 
+//Take a full-page screenshot of each manufacturer's overview page and diff it against its baseline
 for (const { name, path } of manufacturerPages) {
   test(`${name} manufacturer overview page matches visual baseline`, async ({ page, basePage }) => {
     // Overlays are switched off because this test is about layout, not the pop-ups

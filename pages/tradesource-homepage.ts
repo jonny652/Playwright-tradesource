@@ -1,3 +1,4 @@
+// Page object for the Trade Source site's main home page.
 import { Locator, Page} from '@playwright/test';
 import { BasePage } from './base-page';
 
