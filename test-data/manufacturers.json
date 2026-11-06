@@ -3,13 +3,15 @@
     "name": "Vortix",
     "urlPath": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview",
     "tagline": "Commercial cleaning equipment, built for daily use",
-    "websiteHref": "https://www.vortix-commercial.example/overview"
+    "websiteHref": "https://www.vortix-commercial.example/overview",
+    "manufacturerPhone": "08001234567"
   },
 
    {
     "name": "Halden Locks UK",
     "urlPath": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/overview",
     "tagline": "Locks and door hardware for commercial buildings",
-    "websiteHref": "https://www.halden-locks.example/overview"
+    "websiteHref": "https://www.halden-locks.example/overview",
+    "manufacturerPhone": "+44 (0)191 498 0123"
   }
 ]
