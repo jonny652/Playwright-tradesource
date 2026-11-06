@@ -1,3 +1,5 @@
+// Base page object: locators and actions shared by every page (cookie banner, overlays,
+// sign-in button, user menu, navigation). Other page objects extend this class.
 import { Locator, Page } from '@playwright/test';
 
 export class BasePage {
@@ -34,13 +36,16 @@ export class BasePage {
     await this.closeDialogButton.click();
   }
 
-async navigateTo() {
+  //Go to the site's home page
+  async navigateTo() {
   await this.page.goto('/');
   }
-async clickSearchTextbox() {
+  //Click the search textbox
+  async clickSearchTextbox() {
   await this.textboxSearch.click();
   }
-async clickSignInButton() {
+  //Click the "Sign in" button
+  async clickSignInButton() {
 await this.signInButton.click();
 }
   //Auto-dismiss the cookie banner and new feature popup whenever they appear, as they load at random times.

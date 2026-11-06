@@ -1,3 +1,5 @@
+// Page object for a manufacturer's overview page (e.g. Vortix, Halden Locks UK). Locators and
+// text are built from the ManufacturerData passed in, so one class covers every manufacturer.
 import { Locator, Page} from '@playwright/test';
 import { BasePage } from './base-page';
 
@@ -66,6 +68,7 @@ export class ManufacturerHomepage extends BasePage {
   }
 
 
+  //Navigate directly to this manufacturer's overview page
   async gotoManufacturerHomepage() {
     await this.page.goto(this.url);
   }

@@ -1,3 +1,5 @@
+// Playwright "setup" project: runs once before the test projects to produce a signed-in storage
+// state file, so individual specs can start already authenticated instead of logging in each time.
 import fs from 'fs';
 import { test as setup, expect } from '@playwright/test';
 import { BasePage } from '../pages/base-page';

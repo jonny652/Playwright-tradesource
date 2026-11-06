@@ -1,3 +1,5 @@
+// Page object for the manufacturer page's "Certificates" tab: locators for the certificate
+// list/results, plus a helper to intercept the certificates GraphQL request for API tests.
 import { Locator, Page, Route } from '@playwright/test';
 import { BasePage } from './base-page';
 
@@ -23,6 +25,7 @@ export class CertificatesPage extends BasePage {
   }
 
 //ACTIONS...............................................
+  //Click the "Certificates" tab to load the certificate list
   async clickCertificatesTab() {
     await this.certificatesTab.click();
   }
