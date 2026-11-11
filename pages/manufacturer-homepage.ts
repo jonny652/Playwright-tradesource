@@ -6,8 +6,14 @@ import { BasePage } from './base-page';
 export interface ManufacturerData {
   name: string;
   urlPath: string;
-  tagline: string;
-  websiteHref: string;
+  tagline?: string;
+  websiteHref?: string;
+  manufacturerPhone?: string;
+  facebookHref?: string;
+  LinkedInHref?: string;
+  YoutubeHref?: string;
+  instagramHref?: string;
+  overviewTabHref?: string;
 }
 
 export class ManufacturerHomepage extends BasePage {
@@ -20,7 +26,16 @@ export class ManufacturerHomepage extends BasePage {
   readonly contactManufacturerButton: Locator;
   readonly loginModal: Locator;
   readonly url: string;
-  readonly manufacturerTelephoneNumber: Locator
+  readonly manufacturerTelephoneNumber: Locator;
+  readonly facebookIcon: Locator;
+  readonly LinkedInIcon: Locator;
+  readonly YoutubeIcon: Locator;
+  readonly InstagramIcon: Locator;
+  readonly overviewTab: Locator;
+  readonly productsTab: Locator;
+  readonly cpdTab: Locator;
+
+
 
   constructor(page: Page, manufacturer: ManufacturerData) {
     super(page);
@@ -33,6 +48,14 @@ export class ManufacturerHomepage extends BasePage {
     this.manufacturerWebsiteLink = page.getByRole('link', { name: 'Website' });
     this.contactManufacturerButton = page.getByRole('button', { name: 'Contact Manufacturer' });
     this.loginModal = page.getByRole('button', { name: 'Sign in to continue' });
+    this.facebookIcon = page.getByRole('link', { name: 'Facebook' });
+    this.LinkedInIcon = page.getByRole('link', { name: 'LinkedIn' });
+    this.YoutubeIcon = page.getByRole('link', { name: 'YouTube' });
+    this.InstagramIcon = page.getByRole('link', { name: 'Instagram' });
+    this.overviewTab = page.getByRole('link', { name: 'Overview' });
+    this.productsTab = page.getByRole('link', { name: 'Products' });
+    this.cpdTab = page.getByRole('link', { name: 'CPD' });
+
   }
 
 //ACTIONS...............................................
@@ -69,16 +92,10 @@ export class ManufacturerHomepage extends BasePage {
     return this.manufacturerWebsiteLink;
   }
 
-
   //Navigate directly to this manufacturer's overview page
   async gotoManufacturerHomepage() {
     await this.page.goto(this.url);
   }
   
-  //Returns the manufacturer telephone number locator
-  async verifyManufacturerTelephoneNumber() {
-    return this.manufacturerTelephoneNumber;
-  }
-
 
 }

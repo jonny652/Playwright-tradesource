@@ -4,7 +4,16 @@
     "urlPath": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview",
     "tagline": "Commercial cleaning equipment, built for daily use",
     "websiteHref": "https://www.vortix-commercial.example/overview",
-    "manufacturerPhone": "08001234567"
+    "manufacturerPhone": "08001234567",
+    "facebookHref": "https://example.com/social/vortix/facebook",
+    "LinkedInHref": "https://example.com/social/vortix/linkedin",
+    "YoutubeHref": "https://example.com/social/vortix/youtube",
+    "instagramHref": "https://example.com/social/vortix/instagram",
+    "overviewTab": "Overview",
+    "overviewTabHref": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview",
+    "productsTab": "Products",
+    "productsTabHref": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/products"
+   
   },
 
    {
@@ -12,6 +21,16 @@
     "urlPath": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/overview",
     "tagline": "Locks and door hardware for commercial buildings",
     "websiteHref": "https://www.halden-locks.example/overview",
-    "manufacturerPhone": "+44 (0)191 498 0123"
+    "manufacturerPhone": "+44 (0)191 498 0123",
+    "facebookHref": "https://example.com/social/halden-locks-uk/facebook",
+    "LinkedInHref": "https://example.com/social/halden-locks-uk/linkedin",
+    "YoutubeHref": "https://example.com/social/halden-locks-uk/youtube",
+    "instagramHref": "https://example.com/social/halden-locks-uk/instagram",
+    "overviewTab": "Overview",
+    "overviewTabHref": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/overview",
+    "productsTab": "Products",
+    "productsTabHref": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/products",
+    "cpdTab": "CPD",
+    "cpdTabHref": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/cpd"
   }
 ]
