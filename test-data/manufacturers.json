@@ -12,7 +12,15 @@
     "overviewTab": "Overview",
     "overviewTabHref": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/overview",
     "productsTab": "Products",
-    "productsTabHref": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/products"
+    "productsTabHref": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/products",
+    "certificationsTab": "Certifications",
+    "certificationsTabHref": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/third-party-certifications",
+    "literatureTab": "Literature",
+    "literatureTabHref": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/literature",
+    "caseStudiesTab": "Case studies",
+    "caseStudiesTabHref": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/case-studies",
+    "aboutUsTab": "About us",
+    "aboutUsTabHref": "/en/gb/manufacturer/vortix/vtxA1B2C3D4E5F6G7H8/about"
    
   },
 
@@ -31,6 +39,12 @@
     "productsTab": "Products",
     "productsTabHref": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/products",
     "cpdTab": "CPD",
-    "cpdTabHref": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/cpd"
+    "cpdTabHref": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/cpd",
+    "literatureTab": "Literature",
+    "literatureTabHref": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/literature",
+    "caseStudiesTab": "Case studies",
+    "caseStudiesTabHref": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/case-studies",
+    "aboutUsTab": "About us",
+    "aboutUsTabHref": "/en/gb/manufacturer/halden-locks-uk/hldtIYD2mz1WnVtvyGn/about"
   }
 ]
