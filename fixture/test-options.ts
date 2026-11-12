@@ -4,12 +4,14 @@
 // instead of constructing page objects themselves.
 import { test as base } from 'playwright-bdd';
 import manufacturers from '../test-data/manufacturers.json';
+import products from '../test-data/product.json';
 import { TradesourceHomepage } from '../pages/tradesource-homepage';
 import { ManufacturerHomepage } from '../pages/manufacturer-homepage';
 import { SearchResultsPage } from '../pages/searchresults-page';
 import { BasePage } from '../pages/base-page';
 import { SignInPage } from '../pages/sign-in-page';
 import { CertificatesPage } from '../pages/certificates-page';
+import { ProductPage } from '../pages/product-page';
 
 type MyFixtures = {
   tradesourceHomepage: TradesourceHomepage;
@@ -18,6 +20,7 @@ type MyFixtures = {
   basePage: BasePage
   signInPage: SignInPage
   certificatesPage: CertificatesPage
+  productPage: ProductPage
 
 };
 
@@ -52,6 +55,11 @@ export const test = base.extend<MyFixtures>({
     //Certificates tab page object
     certificatesPage: async ({ page }, use) => {
         await use(new CertificatesPage(page));
+    },
+
+    //Product page object, defaulted to the first product in test-data/product.json
+    productPage: async ({ page }, use) => {
+        await use(new ProductPage(page, products[0]));
     },
 
 });
