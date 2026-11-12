@@ -1,11 +1,23 @@
+// Page object for a manufacturer's overview page (e.g. Vortix, Halden Locks UK). Locators and
+// text are built from the ManufacturerData passed in, so one class covers every manufacturer.
 import { Locator, Page} from '@playwright/test';
 import { BasePage } from './base-page';
 
 export interface ManufacturerData {
   name: string;
   urlPath: string;
-  tagline: string;
-  websiteHref: string;
+  tagline?: string;
+  websiteHref?: string;
+  manufacturerPhone?: string;
+  facebookHref?: string;
+  LinkedInHref?: string;
+  YoutubeHref?: string;
+  instagramHref?: string;
+  overviewTabHref?: string;
+  certificationsTabHref?: string;
+  literatureTabHref?: string;
+  caseStudiesTabHref?: string;
+  aboutUsTabHref?: string;
 }
 
 export class ManufacturerHomepage extends BasePage {
@@ -18,6 +30,20 @@ export class ManufacturerHomepage extends BasePage {
   readonly contactManufacturerButton: Locator;
   readonly loginModal: Locator;
   readonly url: string;
+  readonly manufacturerTelephoneNumber: Locator;
+  readonly facebookIcon: Locator;
+  readonly LinkedInIcon: Locator;
+  readonly YoutubeIcon: Locator;
+  readonly InstagramIcon: Locator;
+  readonly overviewTab: Locator;
+  readonly productsTab: Locator;
+  readonly cpdTab: Locator;
+  readonly certificationsTab: Locator;
+  readonly literatureTab: Locator;
+  readonly caseStudiesTab: Locator;
+  readonly aboutUsTab: Locator;
+
+
 
   constructor(page: Page, manufacturer: ManufacturerData) {
     super(page);
@@ -26,9 +52,21 @@ export class ManufacturerHomepage extends BasePage {
     this.nbsLogo = page.getByRole('link', { name: 'NBS' });
     this.h1heading = page.getByRole('heading', { name: manufacturer.name });
     this.h1paragraph = page.getByTestId('manufacturer-tagline');
+    this.manufacturerTelephoneNumber = page.getByTestId('manufacturer-phone');
     this.manufacturerWebsiteLink = page.getByRole('link', { name: 'Website' });
     this.contactManufacturerButton = page.getByRole('button', { name: 'Contact Manufacturer' });
     this.loginModal = page.getByRole('button', { name: 'Sign in to continue' });
+    this.facebookIcon = page.getByRole('link', { name: 'Facebook' });
+    this.LinkedInIcon = page.getByRole('link', { name: 'LinkedIn' });
+    this.YoutubeIcon = page.getByRole('link', { name: 'YouTube' });
+    this.InstagramIcon = page.getByRole('link', { name: 'Instagram' });
+    this.overviewTab = page.getByRole('link', { name: 'Overview' });
+    this.productsTab = page.getByRole('link', { name: 'Products' });
+    this.cpdTab = page.getByRole('link', { name: 'CPD' });
+    this.certificationsTab = page.getByRole('link', { name: 'Certifications' });
+    this.literatureTab = page.getByRole('link', { name: 'Literature' });
+    this.caseStudiesTab = page.getByRole('link', { name: 'Case studies' });
+    this.aboutUsTab = page.getByRole('link', { name: 'About us' });
   }
 
 //ACTIONS...............................................
@@ -65,9 +103,10 @@ export class ManufacturerHomepage extends BasePage {
     return this.manufacturerWebsiteLink;
   }
 
-
+  //Navigate directly to this manufacturer's overview page
   async gotoManufacturerHomepage() {
     await this.page.goto(this.url);
   }
+  
 
 }

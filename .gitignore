@@ -14,6 +14,9 @@ accessibility-reports
 # Local secrets
 .env
 
+# playwright-bdd generated specs (regenerated from features/ on every test run via `bddgen`)
+**/.features-gen/**/*.spec.js
+
 # Visual regression baselines: only the Linux (CI) baselines are committed —
 # they're the source of truth since CI is pinned to one OS/browser-build combo.
 # Local baselines for other OSes are regenerated on demand via updateSnapshots: 'missing'.

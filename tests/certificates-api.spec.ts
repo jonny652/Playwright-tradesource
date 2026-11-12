@@ -1,3 +1,5 @@
+// Certificates tab API tests: intercepts the certificates GraphQL request to simulate different
+// API responses (edited data, empty results, errors, slow network) and checks the UI reacts correctly.
 import { test, expect } from '../fixture/test-options';
 
 const originalTitle = 'Commercial Cleaning Equipment Safety Certificate';
