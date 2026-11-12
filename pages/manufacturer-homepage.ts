@@ -14,6 +14,10 @@ export interface ManufacturerData {
   YoutubeHref?: string;
   instagramHref?: string;
   overviewTabHref?: string;
+  certificationsTabHref?: string;
+  literatureTabHref?: string;
+  caseStudiesTabHref?: string;
+  aboutUsTabHref?: string;
 }
 
 export class ManufacturerHomepage extends BasePage {
@@ -34,6 +38,10 @@ export class ManufacturerHomepage extends BasePage {
   readonly overviewTab: Locator;
   readonly productsTab: Locator;
   readonly cpdTab: Locator;
+  readonly certificationsTab: Locator;
+  readonly literatureTab: Locator;
+  readonly caseStudiesTab: Locator;
+  readonly aboutUsTab: Locator;
 
 
 
@@ -55,7 +63,10 @@ export class ManufacturerHomepage extends BasePage {
     this.overviewTab = page.getByRole('link', { name: 'Overview' });
     this.productsTab = page.getByRole('link', { name: 'Products' });
     this.cpdTab = page.getByRole('link', { name: 'CPD' });
-
+    this.certificationsTab = page.getByRole('link', { name: 'Certifications' });
+    this.literatureTab = page.getByRole('link', { name: 'Literature' });
+    this.caseStudiesTab = page.getByRole('link', { name: 'Case studies' });
+    this.aboutUsTab = page.getByRole('link', { name: 'About us' });
   }
 
 //ACTIONS...............................................

@@ -93,7 +93,7 @@ for (const manufacturer of manufacturers) {
         await expect(manufacturerHomepage.productsTab).toHaveAttribute('href', manufacturer.productsTabHref);
       });
     }
-        //verify the manufacturer CPD tab are visible and contains the correct text and has the correct href — only for manufacturers whose data includes an overview tab href
+        //verify the manufacturer CPD tab is visible and contains the correct text and has the correct href — only for manufacturers whose data includes an overview tab href
     if (manufacturer.cpdTabHref) {
       test('verify the manufacturer CPD tab is visible and contains the correct text and href', async () => {
         await expect(manufacturerHomepage.cpdTab).toBeVisible();
@@ -101,7 +101,43 @@ for (const manufacturer of manufacturers) {
         await expect(manufacturerHomepage.cpdTab).toHaveAttribute('href', manufacturer.cpdTabHref);
       });
     }
- 
+
+        //verify the manufacturer certifications tab is visible and contains the correct text and has the correct href — only for manufacturers whose data includes an overview tab href
+    if (manufacturer.certificationsTabHref) {
+      test('verify the manufacturer certifications tab is visible and contains the correct text and href', async () => {
+        await expect(manufacturerHomepage.certificationsTab).toBeVisible();
+        await expect(manufacturerHomepage.certificationsTab).toHaveText('Certifications');
+        await expect(manufacturerHomepage.certificationsTab).toHaveAttribute('href', manufacturer.certificationsTabHref);
+      });
+    }
+
+            //verify the manufacturer literature tab is visible and contains the correct text and has the correct href — only for manufacturers whose data includes an overview tab href
+    if (manufacturer.literatureTabHref) {
+      test('verify the manufacturer literature tab is visible and contains the correct text and href', async () => {
+        await expect(manufacturerHomepage.literatureTab).toBeVisible();
+        await expect(manufacturerHomepage.literatureTab).toHaveText('Literature');
+        await expect(manufacturerHomepage.literatureTab).toHaveAttribute('href', manufacturer.literatureTabHref);
+      });
+    }
+
+            //verify the manufacturer case studies tab is visible and contains the correct text and has the correct href — only for manufacturers whose data includes an overview tab href
+    if (manufacturer.caseStudiesTabHref) {
+      test('verify the manufacturer case studies tab is visible and contains the correct text and href', async () => {
+        await expect(manufacturerHomepage.caseStudiesTab).toBeVisible();
+        await expect(manufacturerHomepage.caseStudiesTab).toHaveText('Case studies');
+        await expect(manufacturerHomepage.caseStudiesTab).toHaveAttribute('href', manufacturer.caseStudiesTabHref);
+      });
+    }
+
+            //verify the manufacturer about us tab is visible and contains the correct text and has the correct href — only for manufacturers whose data includes an overview tab href
+    if (manufacturer.aboutUsTabHref) {
+      test('verify the manufacturer about us tab is visible and contains the correct text and href', async () => {
+        await expect(manufacturerHomepage.aboutUsTab).toBeVisible();
+        await expect(manufacturerHomepage.aboutUsTab).toHaveText('About us');
+        await expect(manufacturerHomepage.aboutUsTab).toHaveAttribute('href', manufacturer.aboutUsTabHref);
+      });
+    }
+
   });
 }
 
